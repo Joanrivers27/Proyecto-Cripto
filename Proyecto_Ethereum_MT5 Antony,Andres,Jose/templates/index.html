@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Ethereum Analytics | ETHUSD
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/chart.js"
+    ></script>
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ================================================= -->
+    <!-- SIDEBAR -->
+    <!-- ================================================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="logo">
+                Ξ
+            </div>
+
+            <div>
+
+                <strong>
+                    ETH ANALYTICS
+                </strong>
+
+                <span>
+                    MetaTrader 5
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <a
+                href="#inicio"
+                class="active"
+            >
+                Dashboard
+            </a>
+
+            <a href="#mercado">
+                Mercado
+            </a>
+
+            <a href="#graficas">
+                Gráficas
+            </a>
+
+            <a href="#movimientos">
+                Movimientos
+            </a>
+
+            <a href="#actividades">
+                30 actividades
+            </a>
+            <a href="#galeria">
+    <span>▣</span>
+    Galería de gráficas
+</a>
+
+            <a href="#sistema">
+                Sistema
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a
+                class="download"
+                href="/descargar/excel"
+            >
+                ↓ Descargar Excel
+            </a>
+
+            <a
+                class="report-link"
+                href="/informe"
+                target="_blank"
+            >
+                ▣ Ver informe
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================================================= -->
+    <!-- CONTENIDO -->
+    <!-- ================================================= -->
+
+    <main class="main">
+
+
+        <!-- ================================================= -->
+        <!-- HEADER -->
+        <!-- ================================================= -->
+
+        <header
+            class="topbar"
+            id="inicio"
+        >
+
+            <div>
+
+                <p class="eyebrow">
+                    ANÁLISIS DE DATOS
+                </p>
+
+                <h1>
+                    Ethereum
+                    <span>
+                        ETH/USD
+                    </span>
+                </h1>
+
+                <p class="subtitle">
+                    MetaTrader 5 · Pandas · Celery · UTC
+                </p>
+
+            </div>
+
+
+            <div class="top-actions">
+
+                <div class="connection">
+
+                    <span
+                        id="mt5Dot"
+                        class="dot"
+                    ></span>
+
+                    <span id="mt5Status">
+                        Comprobando MT5...
+                    </span>
+
+                </div>
+
+
+                <button
+                    onclick="actualizarTodo()"
+                >
+                    ↻ Actualizar
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================================================= -->
+        <!-- PRECIO -->
+        <!-- ================================================= -->
+
+        <section class="hero-price">
+
+            <div>
+
+                <span class="label">
+                    PRECIO DEL ANÁLISIS
+                </span>
+
+                <div
+                    class="big-price"
+                    id="precioAnalisis"
+                >
+                    ---
+                </div>
+
+                <div
+                    class="muted"
+                    id="periodo"
+                >
+                    Cargando período...
+                </div>
+
+            </div>
+
+
+            <div class="live-price">
+
+                <div>
+
+                    <span>
+                        BID
+                    </span>
+
+                    <strong id="bid">
+                        ---
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        ASK
+                    </span>
+
+                    <strong id="ask">
+                        ---
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        SPREAD
+                    </span>
+
+                    <strong id="spread">
+                        ---
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- CARDS -->
+        <!-- ================================================= -->
+
+        <section
+            class="cards"
+            id="mercado"
+        >
+
+            <div class="card">
+
+                <span>
+                    Máximo
+                </span>
+
+                <strong id="maximo">
+                    ---
+                </strong>
+
+                <small>
+                    USD
+                </small>
+
+            </div>
+
+
+            <div class="card">
+
+                <span>
+                    Mínimo
+                </span>
+
+                <strong id="minimo">
+                    ---
+                </strong>
+
+                <small>
+                    USD
+                </small>
+
+            </div>
+
+
+            <div class="card">
+
+                <span>
+                    Registros
+                </span>
+
+                <strong id="registros">
+                    ---
+                </strong>
+
+                <small>
+                    velas H1
+                </small>
+
+            </div>
+
+
+            <div class="card">
+
+                <span>
+                    Tick volume
+                </span>
+
+                <strong id="tickVolume">
+                    ---
+                </strong>
+
+                <small>
+                    período
+                </small>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- GRÁFICA PRINCIPAL -->
+        <!-- ================================================= -->
+
+        <section
+            class="section"
+            id="graficas"
+        >
+
+            <div class="section-title">
+
+                <div>
+
+                    <p class="eyebrow">
+                        ACTIVIDAD 6
+                    </p>
+
+                    <h2>
+                        Precio de Ethereum
+                    </h2>
+
+                </div>
+
+                <span class="badge">
+                    ETHUSD · H1
+                </span>
+
+            </div>
+
+
+            <div class="panel chart-panel">
+
+                <canvas
+                    id="priceChart"
+                ></canvas>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- DOS COLUMNAS -->
+        <!-- ================================================= -->
+
+        <section
+            class="grid-two"
+            id="movimientos"
+        >
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            ACTIVIDAD 10
+                        </p>
+
+                        <h2>
+                            Velas alcistas y bajistas
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="donut-container">
+
+                    <canvas
+                        id="movementChart"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            ACTIVIDADES 7–9
+                        </p>
+
+                        <h2>
+                            Mayores movimientos
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="movimientosTable"
+                    class="table-wrap"
+                >
+                    Cargando...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- INDICADORES -->
+        <!-- ================================================= -->
+
+        <section class="section">
+
+            <div class="section-title">
+
+                <div>
+
+                    <p class="eyebrow">
+                        ANÁLISIS
+                    </p>
+
+                    <h2>
+                        Indicadores del estudio
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="insight-grid">
+
+
+                <div class="insight">
+
+                    <span>
+                        Instrumento
+                    </span>
+
+                    <strong>
+                        ETHUSD
+                    </strong>
+
+                    <p>
+                        Ethereum cotizado frente al dólar estadounidense.
+                    </p>
+
+                </div>
+
+
+                <div class="insight">
+
+                    <span>
+                        Temporalidad
+                    </span>
+
+                    <strong>
+                        1 hora
+                    </strong>
+
+                    <p>
+                        El análisis principal utiliza velas H1 en UTC.
+                    </p>
+
+                </div>
+
+
+                <div class="insight">
+
+                    <span>
+                        Datos
+                    </span>
+
+                    <strong>
+                        MetaTrader 5
+                    </strong>
+
+                    <p>
+                        Los datos son organizados y analizados mediante Pandas.
+                    </p>
+
+                </div>
+
+
+                <div class="insight">
+
+                    <span>
+                        Procesamiento
+                    </span>
+
+                    <strong>
+                        Celery
+                    </strong>
+
+                    <p>
+                        Las tareas pueden ejecutarse en segundo plano.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+<section class="section" id="evidencia">
+
+    <div class="section-title">
+
+        <div>
+
+            <p class="eyebrow">VALIDACIÓN DEL PROYECTO</p>
+
+            <h2>Evidencia de ejecución</h2>
+
+            <p class="subtitle">
+                Verificación de los principales componentes utilizados
+                durante el análisis de Ethereum con MetaTrader 5.
+            </p>
+
+        </div>
+
+        <span class="badge success">
+            PROYECTO VERIFICADO
+        </span>
+
+    </div>
+
+    <div class="evidence-grid">
+
+        <div class="evidence-card">
+            <div class="evidence-icon">✓</div>
+            <div>
+                <strong>MetaTrader 5</strong>
+                <span>ETHUSD conectado</span>
+            </div>
+        </div>
+
+        <div class="evidence-card">
+            <div class="evidence-icon">✓</div>
+            <div>
+                <strong>Pandas</strong>
+                <span>Datos procesados</span>
+            </div>
+        </div>
+
+        <div class="evidence-card">
+            <div class="evidence-icon">✓</div>
+            <div>
+                <strong>Velas</strong>
+                <span>168 registros horarios</span>
+            </div>
+        </div>
+
+        <div class="evidence-card">
+            <div class="evidence-icon">✓</div>
+            <div>
+                <strong>Gráficas</strong>
+                <span>28 gráficas generadas</span>
+            </div>
+        </div>
+
+        <div class="evidence-card">
+            <div class="evidence-icon">✓</div>
+            <div>
+                <strong>Excel</strong>
+                <span>22 hojas verificadas</span>
+            </div>
+        </div>
+
+        <div class="evidence-card">
+            <div class="evidence-icon">✓</div>
+            <div>
+                <strong>Celery</strong>
+                <span>Tareas ejecutadas</span>
+            </div>
+        </div>
+
+        <div class="evidence-card">
+            <div class="evidence-icon">✓</div>
+            <div>
+                <strong>Prueba sin datos</strong>
+                <span>Controlada correctamente</span>
+            </div>
+        </div>
+
+        <div class="evidence-card">
+            <div class="evidence-icon">✓</div>
+            <div>
+                <strong>Actividades</strong>
+                <span>30 / 30 completadas</span>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+       <!-- ================================================= -->
+<!-- ACTIVIDADES -->
+<!-- ================================================= -->
+
+<section
+    class="section"
+    id="actividades"
+>
+
+    <div class="section-title">
+
+        <div>
+
+            <p class="eyebrow">
+                PROYECTO COMPLETO
+            </p>
+
+            <h2>
+                Actividades del proyecto
+            </h2>
+
+            <p class="subtitle">
+                Selecciona una actividad para consultar
+                sus resultados directamente desde Excel.
+            </p>
+
+        </div>
+
+        <span class="badge success">
+            30 ACTIVIDADES
+        </span>
+
+    </div>
+
+
+    <div
+        id="actividadesGrid"
+        class="activity-grid-new"
+    >
+
+        <div class="loading-activities">
+
+            Cargando actividades...
+
+        </div>
+
+    </div>
+
+</section>
+<section class="section" id="galeria">
+    <div class="section-header">
+        <div>
+            <span class="section-kicker">EVIDENCIA VISUAL</span>
+            <h2>Galería de gráficas</h2>
+            <p>
+                Gráficas generadas directamente por el análisis de Ethereum
+                realizado con MetaTrader 5 y Pandas.
+            </p>
+        </div>
+
+        <div class="gallery-counter">
+            <span id="total-graficas">0</span>
+            <small>gráficas generadas</small>
+        </div>
+    </div>
+
+    <div id="galeria-grid" class="gallery-grid">
+        <div class="gallery-loading">
+            <div class="loading-spinner"></div>
+            <p>Cargando gráficas...</p>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================= -->
+<!-- MODAL DE ACTIVIDAD -->
+<!-- ================================================= -->
+
+<div
+    id="actividadModal"
+    class="modal"
+>
+
+    <div class="modal-content">
+
+        <button
+            class="modal-close"
+            onclick="cerrarActividad()"
+        >
+            ×
+        </button>
+
+
+        <div class="modal-number">
+
+            ACTIVIDAD
+            <span id="modalNumero">
+                01
+            </span>
+
+        </div>
+
+
+        <h2
+            id="modalTitulo"
+            class="modal-title"
+        >
+            Actividad
+        </h2>
+
+
+        <div class="modal-status">
+
+            <span class="status-check">
+                ✓
+            </span>
+
+            Completada
+
+        </div>
+
+
+        <div class="modal-section">
+
+            <div class="modal-label">
+                RESULTADO
+            </div>
+
+            <div
+                id="modalResultado"
+                class="modal-result"
+            >
+                ---
+            </div>
+
+        </div>
+
+
+        <div class="modal-section">
+
+            <div class="modal-label">
+                INTERPRETACIÓN
+            </div>
+
+            <div
+                id="modalInterpretacion"
+                class="modal-interpretation"
+            >
+                ---
+            </div>
+
+        </div>
+
+
+        <div class="modal-section">
+
+            <div class="modal-label">
+                DATOS REGISTRADOS EN EXCEL
+            </div>
+
+            <div
+                id="modalDatos"
+                class="modal-data"
+            >
+                ---
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+        <!-- ================================================= -->
+        <!-- SISTEMA -->
+        <!-- ================================================= -->
+
+        <section
+            class="section"
+            id="sistema"
+        >
+
+            <div class="section-title">
+
+                <div>
+
+                    <p class="eyebrow">
+                        INFRAESTRUCTURA
+                    </p>
+
+                    <h2>
+                        Estado del sistema
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="system-grid">
+
+
+                <div class="system-card">
+
+                    <div class="system-icon">
+                        M
+                    </div>
+
+                    <div>
+
+                        <span>
+                            MetaTrader 5
+                        </span>
+
+                        <strong id="mt5System">
+                            Comprobando...
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="system-card">
+
+                    <div class="system-icon">
+                        C
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Celery
+                        </span>
+
+                        <strong id="celerySystem">
+                            Comprobando...
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="system-card">
+
+                    <div class="system-icon">
+                        X
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Excel
+                        </span>
+
+                        <strong id="excelSystem">
+                            Verificando...
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="system-card">
+
+                    <div class="system-icon">
+                        P
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Pandas
+                        </span>
+
+                        <strong class="online-text">
+                            ACTIVO
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- FOOTER -->
+        <!-- ================================================= -->
+
+        <footer>
+
+            <span>
+                Proyecto de Minería de Datos · Ethereum ETHUSD
+            </span>
+
+            <span>
+                Datos de análisis en UTC
+            </span>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<script
+    src="{{ url_for('static', filename='script.js') }}"
+></script>
+<!-- ============================================================
+     MODAL PARA VER GRÁFICA
+     ============================================================ -->
+
+<div
+    id="grafica-modal"
+    class="grafica-modal"
+    onclick="cerrarGrafica()"
+>
+
+    <div
+        class="grafica-modal-content"
+        onclick="event.stopPropagation()"
+    >
+
+        <button
+            class="grafica-modal-close"
+            onclick="cerrarGrafica()"
+        >
+            ×
+        </button>
+
+        <div class="grafica-modal-header">
+
+            <div>
+                <span>GRÁFICA DEL ANÁLISIS</span>
+
+                <h2 id="grafica-modal-title">
+                    Gráfica
+                </h2>
+
+                <p id="grafica-modal-file">
+                    archivo.png
+                </p>
+            </div>
+
+        </div>
+
+        <div class="grafica-modal-image-container">
+
+            <img
+                id="grafica-modal-img"
+                src=""
+                alt="Gráfica"
+            >
+
+        </div>
+
+    </div>
+
+</div>
+</body>
+
+</html>
